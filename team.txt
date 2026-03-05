@@ -1,0 +1,23 @@
+WDD 330 – Group Project
+Project Name: SleepOutside
+
+-----------------------------------------
+Team Members:
+-----------------------------------------
+1.Sthephani Platero
+2.Fernando Chazarreta
+
+
+-----------------------------------------
+Trello Board:
+https://trello.com/b/BTXOuVxG/wdd-330
+
+-----------------------------------------
+Render URL:
+1 - https://wdd-330-sleepoutside-uxx4.onrender.com (Sthephani) // I'm leaving this as reference
+2 - https://wdd330-sleepoutside-team01.onrender.com (Fernando) 
+
+-----------------------------------------
+Project Description:
+-----------------------------------------
+This project was developed as part of the WDD 330 course.
