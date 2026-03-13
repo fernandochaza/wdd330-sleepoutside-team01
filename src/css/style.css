@@ -114,6 +114,10 @@ button {
   border-bottom: 2px solid var(--primary-color);
 }
 
+.hide {
+  display: none;
+}
+
 /* End utility classes */
 
 /* Cart icon styles */
@@ -129,6 +133,20 @@ button {
 
 .cart:hover svg {
   fill: gray;
+}
+
+.cart-count {
+  position: absolute;
+  top: 4px;
+  left: 8px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--small-font);
 }
 
 /* End cart icon styles */
@@ -191,6 +209,16 @@ button {
   font-size: 1em;
 }
 
+.product-card__original-price {
+  color: #777;
+  font-size: 0.9rem;
+}
+
+.product-card__discount {
+  color: red;
+  font-weight: bold;
+}
+
 /* End product list card */
 
 .product-detail {
@@ -210,6 +238,7 @@ button {
   font-size: var(--small-font);
   /* max-height: 120px; */
   align-items: center;
+  position: relative;
 }
 
 .cart-card__image {
@@ -239,6 +268,21 @@ button {
 .cart-card__price {
   grid-row: 2;
   grid-column: 3;
+}
+
+.remove-item {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  color: var(--tertiary-color);
+  font-size: 1.2em;
+}
+
+.remove-item:hover {
+  color: var(--dark-grey);
+  transform: scale(1.2);
 }
 
 @media screen and (min-width: 500px) {
