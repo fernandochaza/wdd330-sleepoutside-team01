@@ -47,3 +47,13 @@ export function updateCartCount() {
     qs(".cart-count").style.display = "none";
   }
 }
+
+// Calculate discount percentage for a product
+export function calculateDiscount(product) {
+  const { FinalPrice, SuggestedRetailPrice } = product;
+
+  if (FinalPrice >= SuggestedRetailPrice) return 0;
+
+  const discount = ((SuggestedRetailPrice - FinalPrice) / SuggestedRetailPrice) * 100;
+  return Math.round(discount);
+}

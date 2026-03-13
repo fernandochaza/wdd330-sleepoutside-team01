@@ -114,6 +114,10 @@ button {
   border-bottom: 2px solid var(--primary-color);
 }
 
+.hide {
+  display: none;
+}
+
 /* End utility classes */
 
 /* Cart icon styles */
@@ -203,6 +207,16 @@ button {
 
 .card__name {
   font-size: 1em;
+}
+
+.product-card__original-price {
+  color: #777;
+  font-size: 0.9rem;
+}
+
+.product-card__discount {
+  color: red;
+  font-weight: bold;
 }
 
 /* End product list card */
