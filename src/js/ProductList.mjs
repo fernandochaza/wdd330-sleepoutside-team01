@@ -1,17 +1,16 @@
-import { renderListWithTemplate, calculateDiscount } from "./utils.mjs";
+import { renderListWithTemplate, getDiscountPercent } from "./utils.mjs";
 
 function productCardTemplate(product) {
   const { Id, NameWithoutBrand, Image, FinalPrice, Brand, SuggestedRetailPrice } = product;
+  const percent = getDiscountPercent(product);
 
-  const discount = calculateDiscount(product);
+  let priceHtml = `<p class="product-card__price">$${FinalPrice}</p>`;
 
-  const priceHtml = discount
-    ? `
-      <p class="product-card__price">$${FinalPrice}</p>
+  if (percent)
+    priceHtml += `
       <p class="product-card__original-price"><s>$${SuggestedRetailPrice}</s></p>
-      <p class="product-card__discount">${discount}% OFF</p>
-      `
-    : `<p class="product-card__price">$${FinalPrice}</p>`;
+      <p class="product-card__discount">${percent}% OFF</p>
+    `;
   
   return `
     <li class="product-card">
