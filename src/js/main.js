@@ -1,6 +1,7 @@
 import ProductData from "./ProductData.mjs";
 import ProductList from "./ProductList.mjs";
 import { updateCartCount } from "./utils.mjs";
+import Alert from "./Alert.js";
 
 // Update cart count on page load
 updateCartCount();
@@ -12,3 +13,7 @@ const productList = new ProductList(
   document.querySelector(".product-list"),
 );
 productList.init();
+
+// Example usage of Alert class
+const alertSystem = new Alert();
+alertSystem.renderAlert();
