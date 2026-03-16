@@ -1,11 +1,11 @@
 async function loadAlerts() {
-    const response = await fetch('alerts.json');
+    const response = await fetch("/public/json/alerts.json");
     const alerts = await response.json();
 
-    const container = document.getElementById('alert-container');
+    const container = document.getElementById("alert-container");
 
     alerts.forEach(alert => {
-        const alertBox = document.createElement('div');
+        const alertBox = document.createElement("div");
 
         alertBox.textContent = alert.message;
         alertBox.style.backgroundColor = alert.background;
