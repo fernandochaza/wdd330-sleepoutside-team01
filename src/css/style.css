@@ -94,6 +94,18 @@ p {
   margin-top: -1.7em;
 }
 
+/* categories section */
+section.categories {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  margin-top: 80px;
+}
+
+section.categories div.category {
+  width: 100px;
+}
+
 /* utility classes */
 .highlight {
   color: var(--tertiary-color);

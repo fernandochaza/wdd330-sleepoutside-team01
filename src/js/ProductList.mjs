@@ -1,7 +1,7 @@
 import { renderListWithTemplate, getDiscountPercent } from "./utils.mjs";
 
 function productCardTemplate(product) {
-  const { Id, NameWithoutBrand, Image, FinalPrice, Brand, SuggestedRetailPrice } = product;
+  const { Id, NameWithoutBrand, Images, FinalPrice, Brand, SuggestedRetailPrice } = product;
   const percent = getDiscountPercent(product);
 
   let priceHtml = `<p class="product-card__price">$${FinalPrice}</p>`;
@@ -14,8 +14,8 @@ function productCardTemplate(product) {
   
   return `
     <li class="product-card">
-      <a href="product_pages/?product=${Id}">
-        <img src="${Image}" alt="${NameWithoutBrand}">
+      <a href="../product_pages/?product=${Id}">
+        <img src="${Images.PrimaryMedium}" alt="${NameWithoutBrand}">
         <h3 class="card__brand">${Brand.Name}</h3>
         <h2 class="card__name">${NameWithoutBrand}</h2>
         ${priceHtml}
@@ -25,15 +25,15 @@ function productCardTemplate(product) {
 }
 
 export default class ProductList {
-  constructor(category, datasource, listElement) {
+  constructor(category, dataSource, listElement) {
     this.category = category;
-    this.datasource = datasource;
+    this.dataSource = dataSource;
     this.listElement = listElement;
   }
 
   async init() {
-    const products = await this.datasource.getData();
-    this.renderList(products);
+    const list = await this.dataSource.getData(this.category);
+    this.renderList(list);
   }
 
   renderList(products) {
