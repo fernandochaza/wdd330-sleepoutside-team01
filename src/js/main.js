@@ -15,3 +15,21 @@ const productList = new ProductList(
   document.querySelector(".product-list"),
 );
 productList.init();
+
+// Newsletter Features
+const form = document.getElementById("newsletterForm");
+const message = document.getElementById("newsletterMessage");
+
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const email = document.getElementById("email").value;
+
+  // Save email to localStorage
+  let subscribers = JSON.parse(localStorage.getItem("subscribers")) || [];
+  subscribers.push(email);
+  localStorage.setItem("subscribers", JSON.stringify(subscribers));
+
+  message.textContent = "Thanks for subscribing!";
+  form.reset();
+});
