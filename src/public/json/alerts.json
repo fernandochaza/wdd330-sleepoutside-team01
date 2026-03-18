@@ -1,0 +1,14 @@
+[
+  {
+    "message": "Free shipping for orders above $50!",
+    "background": "#ffcc00"
+  },
+  {
+    "message": "New products have arrived!",
+    "background": "#4CAF50"
+  },
+  {
+    "message": "Holiday sale starts this weekend!",
+    "background": "#2196F3"
+  }
+]
