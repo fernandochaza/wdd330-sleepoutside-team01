@@ -186,6 +186,24 @@ button {
   color: var(--dark-grey);
 }
 
+/* Styles for category links */
+.categories {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  text-align: center;
+}
+
+.categories img {
+  width: 60px;
+  height: 60px;
+}
+
+.categories a {
+  text-decoration: none;
+  color: inherit;
+}
+
 /* Styles for product lists */
 .product-card {
   flex: 1 1 45%;
