@@ -5,6 +5,12 @@ export default class ShoppingCart {
         this.cartContainer = cartContainer;
         this.cartFooter = cartFooter;
         this.cartItems = [];
+
+        // attach the listener once
+        this.cartContainer.addEventListener("click", (event) => {
+            if (event.target.classList.contains("remove-item"))
+                this.removeItemFromCart(event);
+        });
     }
 
     renderCartContents() {
@@ -13,11 +19,6 @@ export default class ShoppingCart {
 
         updateCartCount();
         this.updateCartTotal();
-
-        this.cartContainer.addEventListener("click", (event) => {
-            if (event.target.classList.contains("remove-item"))
-                this.removeItemFromCart(event);
-        });
     }
 
     // Update cart total
