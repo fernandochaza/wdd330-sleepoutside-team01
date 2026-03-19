@@ -231,6 +231,34 @@ button {
   width: 100%;
 }
 
+.price-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75em;
+  padding: 0.75rem;
+}
+
+.final-price {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: var(--dark-grey);
+}
+
+.original-price {
+  text-decoration: line-through;
+  color: #888;
+  font-size: 1rem;
+}
+
+.discount-badge {
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 0.2em 0.5em;
+  border-radius: 4px;
+}
+
 /* Start cart list card styles */
 .cart-card {
   display: grid;

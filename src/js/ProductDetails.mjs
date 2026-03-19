@@ -1,4 +1,4 @@
-import { getLocalStorage, setLocalStorage, updateCartCount } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage, updateCartCount, getDiscountPercent } from "./utils.mjs";
 
 export default class ProductDetails {
   constructor(productId, dataSource) {
@@ -37,7 +37,21 @@ function productDetailsTemplate(product) {
   productImage.src = product.Image;
   productImage.alt = product.NameWithoutBrand;
 
-  document.getElementById("productPrice").textContent = product.FinalPrice;
+  const priceElement = document.getElementById("productPrice");
+  const percent = getDiscountPercent(product);
+  let priceHtml = `
+    <div class="price-container">
+    <span class="final-price">$${product.FinalPrice}</span>
+  `;
+  if (percent) {
+    priceHtml += `
+    <span class="original-price">$${product.SuggestedRetailPrice}</span>
+    <span class="discount-badge">${percent}% OFF</span>
+  `;
+  }
+  priceElement.innerHTML = priceHtml;
+
+
   document.getElementById("productColor").textContent =
     product.Colors[0].ColorName;
   document.getElementById("productDesc").innerHTML =
