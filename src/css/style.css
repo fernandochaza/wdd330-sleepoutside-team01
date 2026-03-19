@@ -333,3 +333,29 @@ footer {
   font-size: var(--small-font);
   padding: 1em;
 }
+
+/* Newsletter Features */
+.newsletter {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background-color: #f4f4f4;
+  text-align: center;
+  border-radius: 8px;
+}
+
+.newsletter input {
+  padding: 0.5rem;
+  width: 250px;
+  max-width: 80%;
+  margin-right: 0.5rem;
+}
+
+.newsletter button {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+#newsletterMessage {
+  margin-top: 1rem;
+  color: green;
+}

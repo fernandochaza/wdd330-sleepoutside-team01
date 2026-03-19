@@ -54,6 +54,28 @@ export function renderListWithTemplate(template, parentElement, list, position =
   parentElement.insertAdjacentHTML(position, htmlStrings.join(""));
 }
 
+export function renderWithTemplate(template, parentElement, data, callback) {
+  parentElement.innerHTML = template;
+  if (callback) callback(data);
+}
+
+export async function loadTemplate(path) {
+  const response = await fetch(path);
+  const html = await response.text();
+  return html;
+}
+
+export async function loadHeaderFooter() {
+  const headerHtml = await loadTemplate("../partials/header.html");
+  const footerHtml = await loadTemplate("../partials/footer.html");
+
+  const header = qs("#header");
+  const footer = qs("#footer");
+
+  renderWithTemplate(headerHtml, header, null, updateCartCount);
+  renderWithTemplate(footerHtml, footer, null, updateCartCount);
+}
+
 export function updateCartCount() {
   const cart = getLocalStorage("so-cart") || [];
   const count = cart.length;
