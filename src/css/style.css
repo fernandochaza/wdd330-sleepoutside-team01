@@ -32,8 +32,8 @@ img {
 
 header {
   display: flex;
-  justify-content: space-between;
   padding: 0.5rem;
+  align-items: center;
 }
 
 p {
@@ -94,6 +94,33 @@ p {
   margin-top: -1.7em;
 }
 
+.nav-search {
+  display: flex;
+  align-items: center;
+  margin-left: 40px;
+  border: 1px solid #b1aeae;
+  padding: 4px;
+  border-radius: 2px;
+  height: 40px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+}
+
+.nav-search__input {
+  min-width: 400px;
+  border: none;
+  margin-left: 10px;
+}
+
+.nav-search__input:focus {
+  outline: none;
+}
+
+.search-icon {
+  stroke: #525b0f;
+  margin: 8px;
+  cursor: pointer;
+}
+
 /* utility classes */
 .highlight {
   color: var(--tertiary-color);
@@ -122,9 +149,9 @@ button {
 
 /* Cart icon styles */
 .cart {
-  padding-top: 1em;
   position: relative;
   text-align: center;
+  margin-left: auto;
 }
 
 .cart svg {
