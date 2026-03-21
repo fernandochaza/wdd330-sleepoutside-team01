@@ -74,6 +74,27 @@ export async function loadHeaderFooter() {
 
   renderWithTemplate(headerHtml, header, null, updateCartCount);
   renderWithTemplate(footerHtml, footer, null, updateCartCount);
+  setupSearch();
+}
+
+function setupSearch() {
+  const input = qs("#nav-search-input");
+  const icon = qs(".search-icon");
+
+  function doSearch() {
+    const keyword = input.value.trim(); // We use .trim() to remove trailing blank spaces
+    if (keyword) {
+      window.location.href = `/product_listing/index.html?search=${encodeURIComponent(keyword)}`;
+    }
+  }
+
+  // For better user experience we trigger search in both "Enter" key and click on the magnifying glass icon
+  input.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      doSearch();
+    }
+  });
+  icon.addEventListener("click", doSearch);
 }
 
 export function updateCartCount() {
