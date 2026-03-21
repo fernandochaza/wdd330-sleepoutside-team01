@@ -18,10 +18,15 @@ export default class ProductDetails {
 
   addToCart() {
     const cart = getLocalStorage("so-cart") || [];
-    cart.push(this.product);
+    const existingItem = cart.find(item => item.Id === this.product.Id);
+    if (existingItem) {
+      existingItem.quantity = (existingItem.quantity || 1) + 1;
+    } else {
+      this.product.quantity = 1;
+      cart.push(this.product);
+    }
     setLocalStorage("so-cart", cart);
     updateCartCount();
-
   }
 
   renderProductDetails() {
