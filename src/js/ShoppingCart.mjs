@@ -10,6 +10,10 @@ export default class ShoppingCart {
         this.cartContainer.addEventListener("click", (event) => {
             if (event.target.classList.contains("remove-item"))
                 this.removeItemFromCart(event);
+            else if (event.target.classList.contains("quantity-increase"))
+                this.incrementQuantity(event);
+            else if (event.target.classList.contains("quantity-decrease"))
+                this.decrementQuantity(event);
         });
     }
 
@@ -51,6 +55,35 @@ export default class ShoppingCart {
             updateCartCount();
         }
     }
+
+    // Increment quantity
+    incrementQuantity(event) {
+        const id = event.target.dataset.id;
+        const item = this.cartItems.find(item => item.Id == id);
+        
+        if (item) {
+            item.quantity = (item.quantity || 1) + 1;
+            setLocalStorage("so-cart", this.cartItems);
+            this.renderCartContents();
+        }
+    }
+
+    // Decrement quantity
+    decrementQuantity(event) {
+        const id = event.target.dataset.id;
+        const item = this.cartItems.find(item => item.Id == id);
+        
+        if (item) {
+            if (item.quantity > 1) {
+                item.quantity -= 1;
+            } else {
+                this.removeItemFromCart(event);
+                return;
+            }
+            setLocalStorage("so-cart", this.cartItems);
+            this.renderCartContents();
+        }
+    }
 }
 
 function cartItemTemplate(item) {
@@ -67,7 +100,13 @@ function cartItemTemplate(item) {
             <h2 class="card__name">${item.Name}</h2>
         </a>
         <p class="cart-card__color">${item.Colors[0].ColorName}</p>
-        <p class="cart-card__quantity">qty: ${item.quantity || 1}</p>
+        <div class="cart-card__quantity">
+            <span class="quantity-value">qty: ${item.quantity || 1}</span>
+            <div>
+                <button class="quantity-decrease" data-id="${item.Id}">-</button>
+                <button class="quantity-increase" data-id="${item.Id}">+</button>
+            </div>
+        </div>
         <p class="cart-card__price">$${item.FinalPrice}</p>
         </li>
     `;
