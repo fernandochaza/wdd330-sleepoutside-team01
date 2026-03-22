@@ -100,14 +100,14 @@ function cartItemTemplate(item) {
             <h2 class="card__name">${item.Name}</h2>
         </a>
         <p class="cart-card__color">${item.Colors[0].ColorName}</p>
+        <p class="cart-card__price">$${item.FinalPrice}</p>
         <div class="cart-card__quantity">
             <span class="quantity-value">qty: ${item.quantity || 1}</span>
-            <div>
-                <button class="quantity-decrease" data-id="${item.Id}">-</button>
-                <button class="quantity-increase" data-id="${item.Id}">+</button>
+            <div class="quantity-controls">
+                <button class="quantity-decrease" data-id="${item.Id}" aria-label="Decrease quantity" ${item.quantity > 1 ? "" : "disabled"}>-</button>
+                <button class="quantity-increase" data-id="${item.Id}" aria-label="Increase quantity">+</button>
             </div>
         </div>
-        <p class="cart-card__price">$${item.FinalPrice}</p>
         </li>
     `;
 }
