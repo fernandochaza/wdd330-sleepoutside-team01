@@ -1,4 +1,9 @@
-import { getLocalStorage, setLocalStorage, updateCartCount, getDiscountPercent } from "./utils.mjs";
+import {
+  getLocalStorage,
+  setLocalStorage,
+  updateCartCount,
+  getDiscountPercent,
+} from "./utils.mjs";
 
 export default class ProductDetails {
   constructor(productId, dataSource) {
@@ -21,7 +26,6 @@ export default class ProductDetails {
     cart.push(this.product);
     setLocalStorage("so-cart", cart);
     updateCartCount();
-
   }
 
   renderProductDetails() {
@@ -50,7 +54,6 @@ function productDetailsTemplate(product) {
   `;
   }
   priceElement.innerHTML = priceHtml;
-
 
   document.getElementById("productColor").textContent =
     product.Colors[0].ColorName;
