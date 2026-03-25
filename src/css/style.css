@@ -457,3 +457,21 @@ footer {
   object-fit: contain;
   margin: 0 auto;
 }
+
+/* CUSTOMER COMMENTS  */
+.comments {
+  margin-top: 2rem;
+}
+
+.comments textarea {
+  width: 100%;
+  height: 80px;
+  padding: 0.5rem;
+}
+
+.comment {
+  background: #f4f4f4;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  border-radius: 5px;
+}
