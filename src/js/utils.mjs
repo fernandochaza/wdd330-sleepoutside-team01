@@ -1,33 +1,29 @@
 // ---------------------------
 // DOM Utilities
 // ---------------------------
-
-// wrapper for querySelector...returns matching element
 export function qs(selector, parent = document) {
   return parent.querySelector(selector);
 }
-// or a more concise version if you are into that sort of thing:
-// export const qs = (selector, parent = document) => parent.querySelector(selector);
 
-// set a listener for both touchend and click
 export function setClick(selector, callback) {
-  qs(selector).addEventListener("touchend", (event) => {
+  const element = qs(selector);
+  if (!element) return;
+
+  element.addEventListener("touchend", (event) => {
     event.preventDefault();
     callback();
   });
-  qs(selector).addEventListener("click", callback);
+
+  element.addEventListener("click", callback);
 }
 
 // ---------------------------
 // Local Storage Utilities
 // ---------------------------
-
-// retrieve data from localstorage
 export function getLocalStorage(key) {
   return JSON.parse(localStorage.getItem(key));
 }
 
-// save data to local storage
 export function setLocalStorage(key, data) {
   localStorage.setItem(key, JSON.stringify(data));
 }
@@ -35,7 +31,6 @@ export function setLocalStorage(key, data) {
 // ---------------------------
 // URL Utilities
 // ---------------------------
-
 export function getParam(param) {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
@@ -45,74 +40,109 @@ export function getParam(param) {
 // ---------------------------
 // Rendering Utilities
 // ---------------------------
+export function renderListWithTemplate(
+  template,
+  parentElement,
+  list,
+  position = "afterbegin",
+  clear = false,
+) {
+  if (!parentElement) return;
 
-export function renderListWithTemplate(template, parentElement, list, position = "afterbegin", clear = false) {
   const htmlStrings = list.map(template);
+
   if (clear) {
     parentElement.innerHTML = "";
   }
+
   parentElement.insertAdjacentHTML(position, htmlStrings.join(""));
 }
 
 export function renderWithTemplate(template, parentElement, data, callback) {
+  if (!parentElement) {
+    console.warn("Parent element not found");
+    return;
+  }
+
   parentElement.innerHTML = template;
   if (callback) callback(data);
 }
 
+// ---------------------------
+// Template Loading
+// ---------------------------
 export async function loadTemplate(path) {
   const response = await fetch(path);
-  const html = await response.text();
-  return html;
+  return await response.text();
 }
 
 export async function loadHeaderFooter() {
-  const headerHtml = await loadTemplate("/partials/header.html");
-  const footerHtml = await loadTemplate("/partials/footer.html");
-
   const header = qs("#header");
   const footer = qs("#footer");
 
-  renderWithTemplate(headerHtml, header, null, updateCartCount);
-  renderWithTemplate(footerHtml, footer, null, updateCartCount);
-  setupSearch();
+  // ✅ prevent crash
+  if (!header || !footer) {
+    console.warn("Header or Footer missing in HTML");
+    return;
+  }
+
+  try {
+    const headerHtml = await loadTemplate("/partials/header.html");
+    const footerHtml = await loadTemplate("/partials/footer.html");
+
+    renderWithTemplate(headerHtml, header, null, updateCartCount);
+    renderWithTemplate(footerHtml, footer, null, updateCartCount);
+
+    setupSearch();
+  } catch (err) {
+    console.error("Error loading templates:", err);
+  }
 }
 
+// ---------------------------
+// Search Setup
+// ---------------------------
 function setupSearch() {
   const input = qs("#nav-search-input");
   const icon = qs(".search-icon");
 
+  if (!input || !icon) return;
+
   function doSearch() {
-    const keyword = input.value.trim(); // We use .trim() to remove trailing blank spaces
+    const keyword = input.value.trim();
     if (keyword) {
       window.location.href = `/product_listing/index.html?search=${encodeURIComponent(keyword)}`;
     }
   }
 
-  // For better user experience we trigger search in both "Enter" key and click on the magnifying glass icon
   input.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-      doSearch();
-    }
+    if (event.key === "Enter") doSearch();
   });
+
   icon.addEventListener("click", doSearch);
 }
 
+// ---------------------------
+// Cart Count
+// ---------------------------
 export function updateCartCount() {
   const cart = getLocalStorage("so-cart") || [];
   const count = cart.length;
 
+  const badge = qs(".cart-count");
+  if (!badge) return;
+
   if (count > 0) {
-    qs(".cart-count").textContent = count;
-    qs(".cart-count").style.display = "flex";
+    badge.textContent = count;
+    badge.style.display = "flex";
   } else {
-    qs(".cart-count").style.display = "none";
+    badge.style.display = "none";
   }
 }
 
 // ---------------------------
 // Pricing Utilities
 // ---------------------------
-
 export function isDiscounted(product) {
   return product.FinalPrice < product.SuggestedRetailPrice;
 }
@@ -120,8 +150,7 @@ export function isDiscounted(product) {
 export function getDiscountAmount(product) {
   if (!isDiscounted(product)) return 0;
 
-  const amount =
-    product.SuggestedRetailPrice - product.FinalPrice;
+  const amount = product.SuggestedRetailPrice - product.FinalPrice;
 
   return Number(amount.toFixed(2));
 }
@@ -130,8 +159,7 @@ export function getDiscountPercent(product) {
   const amount = getDiscountAmount(product);
   if (!amount) return 0;
 
-  const percent =
-    (amount / product.SuggestedRetailPrice) * 100;
+  const percent = (amount / product.SuggestedRetailPrice) * 100;
 
   return Math.round(percent);
 }
