@@ -1,13 +1,14 @@
 // ---------------------------
 // DOM Utilities
 // ---------------------------
+
 export function qs(selector, parent = document) {
   return parent.querySelector(selector);
 }
 
 export function setClick(selector, callback) {
   const element = qs(selector);
-  if (!element) return;
+  if (!element) return; //
 
   element.addEventListener("touchend", (event) => {
     event.preventDefault();
@@ -20,6 +21,7 @@ export function setClick(selector, callback) {
 // ---------------------------
 // Local Storage Utilities
 // ---------------------------
+
 export function getLocalStorage(key) {
   return JSON.parse(localStorage.getItem(key));
 }
@@ -31,6 +33,7 @@ export function setLocalStorage(key, data) {
 // ---------------------------
 // URL Utilities
 // ---------------------------
+
 export function getParam(param) {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
@@ -40,6 +43,7 @@ export function getParam(param) {
 // ---------------------------
 // Rendering Utilities
 // ---------------------------
+
 export function renderListWithTemplate(
   template,
   parentElement,
@@ -47,7 +51,7 @@ export function renderListWithTemplate(
   position = "afterbegin",
   clear = false,
 ) {
-  if (!parentElement) return;
+  if (!parentElement) return; //
 
   const htmlStrings = list.map(template);
 
@@ -59,10 +63,7 @@ export function renderListWithTemplate(
 }
 
 export function renderWithTemplate(template, parentElement, data, callback) {
-  if (!parentElement) {
-    console.warn("Parent element not found");
-    return;
-  }
+  if (!parentElement) return; //
 
   parentElement.innerHTML = template;
   if (callback) callback(data);
@@ -71,37 +72,39 @@ export function renderWithTemplate(template, parentElement, data, callback) {
 // ---------------------------
 // Template Loading
 // ---------------------------
+
 export async function loadTemplate(path) {
   const response = await fetch(path);
   return await response.text();
 }
 
+// FIXED VERSION
 export async function loadHeaderFooter() {
   const header = qs("#header");
   const footer = qs("#footer");
 
-  // ✅ prevent crash
-  if (!header || !footer) {
-    console.warn("Header or Footer missing in HTML");
-    return;
-  }
-
   try {
-    const headerHtml = await loadTemplate("/partials/header.html");
-    const footerHtml = await loadTemplate("/partials/footer.html");
+    // load header only if it exists
+    if (header) {
+      const headerHtml = await loadTemplate("/partials/header.html");
+      renderWithTemplate(headerHtml, header, null, updateCartCount);
+      setupSearch(); // only run if header exists
+    }
 
-    renderWithTemplate(headerHtml, header, null, updateCartCount);
-    renderWithTemplate(footerHtml, footer, null, updateCartCount);
-
-    setupSearch();
+    // load footer only if it exists
+    if (footer) {
+      const footerHtml = await loadTemplate("/partials/footer.html");
+      renderWithTemplate(footerHtml, footer, null, updateCartCount);
+    }
   } catch (err) {
-    console.error("Error loading templates:", err);
+    console.error("Error loading header/footer:", err);
   }
 }
 
 // ---------------------------
 // Search Setup
 // ---------------------------
+
 function setupSearch() {
   const input = qs("#nav-search-input");
   const icon = qs(".search-icon");
@@ -116,7 +119,9 @@ function setupSearch() {
   }
 
   input.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") doSearch();
+    if (event.key === "Enter") {
+      doSearch();
+    }
   });
 
   icon.addEventListener("click", doSearch);
@@ -125,6 +130,7 @@ function setupSearch() {
 // ---------------------------
 // Cart Count
 // ---------------------------
+
 export function updateCartCount() {
   const cart = getLocalStorage("so-cart") || [];
   const count = cart.length;
@@ -143,6 +149,7 @@ export function updateCartCount() {
 // ---------------------------
 // Pricing Utilities
 // ---------------------------
+
 export function isDiscounted(product) {
   return product.FinalPrice < product.SuggestedRetailPrice;
 }

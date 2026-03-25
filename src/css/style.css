@@ -420,6 +420,7 @@ footer {
   max-height: 250px;
   object-fit: contain;
   margin: 0 auto;
+<<<<<<< Updated upstream
 }
 
 /* CUSTOMER COMMENTS  */
@@ -438,4 +439,6 @@ footer {
   padding: 0.5rem;
   margin-top: 0.5rem;
   border-radius: 5px;
+=======
+>>>>>>> Stashed changes
 }
