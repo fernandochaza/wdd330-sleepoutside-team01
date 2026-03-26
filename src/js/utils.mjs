@@ -170,3 +170,17 @@ export function getDiscountPercent(product) {
 
   return Math.round(percent);
 }
+
+// ---------------------------
+// Form Utilities
+// ---------------------------
+
+// takes a form element and returns an object where the key is the "name" of the form input and the value is the "value" of the form input
+export function formDataToJSON(formElement) {
+  const formData = new FormData(formElement);
+  const convertedJSON = {};
+  formData.forEach((value, key) => {
+    convertedJSON[key] = value;
+  });
+  return convertedJSON;
+}

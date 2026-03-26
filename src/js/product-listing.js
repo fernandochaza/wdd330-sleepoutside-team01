@@ -1,4 +1,4 @@
-import ProductData from "./ProductData.mjs";
+import ExternalServices from "./ExternalServices.mjs";
 import ProductList from "./ProductList.mjs";
 import { loadHeaderFooter, getParam, qs } from "./utils.mjs";
 
@@ -6,7 +6,7 @@ loadHeaderFooter();
 
 const category = getParam("category");
 const search = getParam("search");
-const productData = new ProductData();
+const productData = new ExternalServices();
 const listElement = qs(".product-list");
 
 // If the queryParam "search" is present, the listing is coming from a search

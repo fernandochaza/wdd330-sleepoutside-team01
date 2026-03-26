@@ -178,6 +178,82 @@ button {
 
 /* End cart icon styles */
 
+/* Cart checkout button */
+#checkout-button {
+  display: block;
+  padding: 8px 16px;
+  margin-left: auto;
+  background-color: var(--secondary-color);
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  font-size: var(--large-font);
+  border-radius: 4px;
+  max-width: 200px;
+}
+
+#checkout-button:hover {
+  opacity: 0.85;
+}
+/* End cart checkout button */
+
+/* Checkout form styles */
+.checkout-form {
+  max-width: 600px;
+}
+
+.checkout-form fieldset {
+  border: 1px solid var(--light-grey);
+  border-radius: 4px;
+  padding: 0 16px 16px;
+  margin-bottom: 1em;
+}
+
+.checkout-form legend {
+  font-weight: bold;
+  color: var(--tertiary-color);
+  padding: 0 8px;
+}
+
+.checkout-form label {
+  display: block;
+  margin-top: 0.75em;
+  margin-bottom: 0.25em;
+  font-size: 0.9em;
+  color: var(--dark-grey);
+}
+
+.checkout-form input {
+  width: 100%;
+  padding: 0.5em;
+  border: 1px solid var(--light-grey);
+  border-radius: 4px;
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+.checkout-form input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 3px var(--primary-color);
+}
+
+#order-btn {
+  max-width: 240px;
+  margin: 16px auto;
+  border-radius: 4px;
+}
+
+.expiration-row {
+  display: flex;
+  gap: 16px;
+}
+
+.expiration-row > div {
+  flex: 1;
+}
+/* End checkout form styles */
+
 .mission {
   position: absolute;
   top: 1rem;

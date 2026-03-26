@@ -19,6 +19,58 @@
       <section class="products">
         <h2>Review & Place your Order</h2>
       </section>
+      <form class="checkout-form">
+        <fieldset>
+          <legend>Customer Name</legend>
+          <label for="fname">First Name</label>
+          <input id="fname" type="text" name="fname" required />
+
+          <label for="lname">Last Name</label>
+          <input id="lname" type="text" name="lname" required />
+        </fieldset>
+        <fieldset>
+          <legend>Address</legend>
+          <label for="street">Street Address</label>
+          <input id="street" type="text" name="street" required />
+
+          <label for="city">City</label>
+          <input id="city" type="text" name="city" required />
+
+          <label for="state">State</label>
+          <input id="state" type="text" name="state" required />
+
+          <label for="zip">Zip Code</label>
+          <input id="zip" type="text" name="zip" required />
+        </fieldset>
+        <fieldset>
+          <legend>Payment</legend>
+          <label for="cardNumber">Credit Card Number</label>
+          <input id="cardNumber" type="text" name="cardNumber" required />
+
+          <div class="expiration-row">
+            <div>
+              <label for="expMonth">Exp. Month</label>
+              <input id="expMonth" type="number" name="expMonth" min="1" max="12" placeholder="MM" required />
+            </div>
+            <div>
+              <label for="expYear">Exp. Year</label>
+              <input id="expYear" type="number" name="expYear" min="24" max="99" placeholder="YY" required />
+            </div>
+          </div>
+
+          <label for="code">Security Code</label>
+          <input id="code" type="text" name="code" required />
+        </fieldset>
+        <button id="order-btn" type="submit">Place Order</button>
+      </form>
+
+      <section>
+        <h3>Order Summary</h3>
+        <p>Subtotal: <span id="summary-subtotal"></span></p>
+        <p>Tax: <span id="summary-tax"></span></p>
+        <p>Shipping Estimate: <span id="summary-shipping"></span></p>
+        <p>Order Total: <span id="summary-total"></span></p>
+      </section>
     </main>
 
     <footer id="footer"></footer>
