@@ -254,6 +254,63 @@ button {
 }
 /* End checkout form styles */
 
+/* Start success page styles */
+.success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+  text-align: center;
+  padding: 2rem;
+}
+
+.success-card {
+  background-color: white;
+  border: 1px solid var(--light-grey);
+  border-radius: 10px;
+  padding: 2rem 3rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+}
+
+.success h1 {
+  font-family: var(--font-headline);
+  color: var(--secondary-color);
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+}
+
+.success p {
+  font-size: 1.1rem;
+  color: var(--dark-grey);
+  margin-bottom: 1.5rem;
+}
+
+.success .highlight {
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+.success a {
+  text-decoration: none;
+}
+
+.success button,
+.success .button {
+  background-color: var(--secondary-color);
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.success button:hover,
+.success .button:hover {
+  background-color: var(--tertiary-color);
+  transform: scale(1.05);
+}
+
+/* End success page styles */
+
 .mission {
   position: absolute;
   top: 1rem;
@@ -496,7 +553,6 @@ footer {
   max-height: 250px;
   object-fit: contain;
   margin: 0 auto;
-<<<<<<< Updated upstream
 }
 
 /* CUSTOMER COMMENTS  */
@@ -515,6 +571,4 @@ footer {
   padding: 0.5rem;
   margin-top: 0.5rem;
   border-radius: 5px;
-=======
->>>>>>> Stashed changes
 }

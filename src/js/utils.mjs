@@ -184,3 +184,25 @@ export function formDataToJSON(formElement) {
   });
   return convertedJSON;
 }
+
+// alert message for when the user fails a form validation chec
+export function alertMessage(message, scroll = true) {
+  const alert = document.createElement("div");
+  alert.classList.add("alert");
+
+  alert.innerHTML = `
+    <span>${message}</span>
+    <button class="close-btn">X</button>
+  `;
+
+  alert.addEventListener("click", function (e) {
+    if (e.target.classList.contains("close-btn")) {
+      alert.remove();
+    }
+  });
+
+  const main = document.querySelector("main");
+  main.prepend(alert);
+
+  if (scroll) window.scrollTo(0, 0);
+}
