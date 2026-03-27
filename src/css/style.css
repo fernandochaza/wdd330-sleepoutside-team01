@@ -362,6 +362,43 @@ button {
   border-radius: 4px;
 }
 
+/* End product detail styles */
+/* Styles for details image csrusel */
+
+.product-images {
+  text-align: center;
+}
+
+.main-image {
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 1rem;
+}
+
+.thumbnails {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.thumbnails img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  transition: 0.2s;
+}
+
+.thumbnails img:hover {
+  border-color: var(--primary-color);
+  transform: scale(1.05);
+}
+
+/* End details image carousel styles */
+
 /* Start cart list card styles */
 .cart-card {
   display: grid;
@@ -496,7 +533,6 @@ footer {
   max-height: 250px;
   object-fit: contain;
   margin: 0 auto;
-<<<<<<< Updated upstream
 }
 
 /* CUSTOMER COMMENTS  */
@@ -515,6 +551,4 @@ footer {
   padding: 0.5rem;
   margin-top: 0.5rem;
   border-radius: 5px;
-=======
->>>>>>> Stashed changes
 }
