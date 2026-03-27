@@ -6,16 +6,22 @@ loadHeaderFooter();
 
 const externalServices = new ExternalServices();
 const checkout = new CheckoutProcess(externalServices);
+
 checkout.init();
 
 document
   .querySelector(".checkout-form")
-  .addEventListener("submit", async (event) => {
+  .addEventListener("submit", (event) => {
     event.preventDefault();
-    try {
-      await checkout.checkout(event.target);
-      alert("Order placed successfully! Thank you for your purchase.");
-    } catch (err) {
-      alert("There was a problem placing your order. Please try again.");
+
+    const form = event.target;
+
+    
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
     }
+
+   
+    checkout.checkout(form);
   });
