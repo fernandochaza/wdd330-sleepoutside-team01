@@ -49,14 +49,16 @@ export default class ProductList {
     this.category = category;
     this.datasource = datasource;
     this.listElement = listElement;
+    this.products = [];
   }
 
   async init() {
-    const products = await this.datasource.getData(this.category);
-    this.renderList(products);
+    this.products = await this.datasource.getData(this.category);
+    this.renderList(this.products);
   }
 
-  renderList(products) {
+  renderList(products = this.products) {
+    this.listElement.innerHTML = "";
     renderListWithTemplate(
       productCardTemplate,
       this.listElement,
@@ -64,5 +66,25 @@ export default class ProductList {
       "afterbegin",
       true,
     );
+  }
+
+  sortProducts(type) {
+    let sorted = [...this.products];
+
+    if (type === "name") {
+      sorted.sort((a, b) =>
+        a.NameWithoutBrand.localeCompare(b.NameWithoutBrand)
+      );
+    }
+
+    if (type === "price") {
+      sorted.sort((a, b) => a.FinalPrice - b.FinalPrice);
+    }
+
+    if (type === "price-desc") {
+      sorted.sort((a, b) => b.FinalPrice - a.FinalPrice);
+    }
+
+    this.renderList(sorted);
   }
 }

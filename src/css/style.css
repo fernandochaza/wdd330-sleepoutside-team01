@@ -453,6 +453,51 @@ button {
   transform: scale(1.2);
 }
 
+/* dropdown sort styles */
+.sort-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin: 1rem 1rem 0 1rem;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 0.5rem;
+}
+
+.sort-container label {
+  font-size: var(--small-font);
+  color: var(--dark-grey);
+}
+
+.sort-container select {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--light-grey);
+  border-radius: 4px;
+  font-size: var(--small-font);
+  background-color: white;
+  color: var(--dark-grey);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sort-container select:hover {
+  border-color: var(--primary-color);
+}
+
+.sort-container select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 4px var(--primary-color);
+}
+
+@media screen and (max-width: 500px) {
+  .sort-container {
+    justify-content: center;
+  }
+}
+
+/* End dropdown sort styles */
+
 /* Category Navigation */
 .categories {
   margin-top: 2rem;

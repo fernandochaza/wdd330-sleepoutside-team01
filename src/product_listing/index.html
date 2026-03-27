@@ -11,6 +11,16 @@
     <header class="divider" id="header"></header>
     <div id="alert-container"></div>
     <main class="divider">
+      <div class="sort-container">
+        <label for="sort">Sort by:</label>
+        <select id="sort">
+          <option value="">-- Select --</option>
+          <option value="name">Name (A-Z)</option>
+          <option value="price">Price (Low to High)</option>
+          <option value="price-desc">Price (High to Low)</option>
+        </select>
+      </div>
+
       <section class="products">
         <h2 id="title"></h2>
         <ul class="product-list">

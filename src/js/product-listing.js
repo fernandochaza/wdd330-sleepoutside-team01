@@ -17,12 +17,25 @@ if (search) {
       listElement.innerHTML = `<p class="no-results">No products found for "${search}".</p>`;
     } else {
       const productList = new ProductList(null, productData, listElement);
+      productList.products = products;
       productList.renderList(products);
+
+      const sortSelect = qs("#sort");
+
+      sortSelect.addEventListener("change", (e) => {
+        productList.sortProducts(e.target.value);
+      });
     }
   });
 } else {
   qs("#title").textContent =
     `Top Products : ${category.charAt(0).toUpperCase() + category.slice(1)}`;
   const productList = new ProductList(category, productData, listElement);
-  productList.init();
+  productList.init().then(() => {
+    const sortSelect = qs("#sort");
+
+    sortSelect.addEventListener("change", (e) => {
+      productList.sortProducts(e.target.value);
+    });
+  });
 }
