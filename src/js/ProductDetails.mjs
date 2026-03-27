@@ -34,6 +34,8 @@ export default class ProductDetails {
     updateCartCount();
   }
 
+  
+
   renderProductDetails() {
     productDetailsTemplate(this.product);
   }

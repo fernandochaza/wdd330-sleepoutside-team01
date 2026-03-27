@@ -133,16 +133,20 @@ function setupSearch() {
 
 export function updateCartCount() {
   const cart = getLocalStorage("so-cart") || [];
-  const count = cart.length;
+  const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
 
   const badge = qs(".cart-count");
   if (!badge) return;
 
-  if (count > 0) {
-    badge.textContent = count;
+  if (cart.length > 0 && totalItems > 0) { 
+    badge.textContent = totalItems;
     badge.style.display = "flex";
+
+    
+    badge.classList.add("show");
+    setTimeout(() => badge.classList.remove("show"), 400);
   } else {
-    badge.style.display = "none";
+    badge.style.display = "none"; 
   }
 }
 
