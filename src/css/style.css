@@ -362,6 +362,43 @@ button {
   border-radius: 4px;
 }
 
+/* End product detail styles */
+/* Styles for details image csrusel */
+
+.product-images {
+  text-align: center;
+}
+
+.main-image {
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 1rem;
+}
+
+.thumbnails {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.thumbnails img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  transition: 0.2s;
+}
+
+.thumbnails img:hover {
+  border-color: var(--primary-color);
+  transform: scale(1.05);
+}
+
+/* End details image carousel styles */
+
 /* Start cart list card styles */
 .cart-card {
   display: grid;
@@ -415,6 +452,51 @@ button {
   color: var(--dark-grey);
   transform: scale(1.2);
 }
+
+/* dropdown sort styles */
+.sort-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin: 1rem 1rem 0 1rem;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 0.5rem;
+}
+
+.sort-container label {
+  font-size: var(--small-font);
+  color: var(--dark-grey);
+}
+
+.sort-container select {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--light-grey);
+  border-radius: 4px;
+  font-size: var(--small-font);
+  background-color: white;
+  color: var(--dark-grey);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sort-container select:hover {
+  border-color: var(--primary-color);
+}
+
+.sort-container select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 4px var(--primary-color);
+}
+
+@media screen and (max-width: 500px) {
+  .sort-container {
+    justify-content: center;
+  }
+}
+
+/* End dropdown sort styles */
 
 /* Category Navigation */
 .categories {
@@ -496,7 +578,6 @@ footer {
   max-height: 250px;
   object-fit: contain;
   margin: 0 auto;
-<<<<<<< Updated upstream
 }
 
 /* CUSTOMER COMMENTS  */
@@ -515,6 +596,4 @@ footer {
   padding: 0.5rem;
   margin-top: 0.5rem;
   border-radius: 5px;
-=======
->>>>>>> Stashed changes
 }
