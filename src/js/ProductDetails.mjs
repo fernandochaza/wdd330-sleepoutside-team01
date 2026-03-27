@@ -44,8 +44,37 @@ function productDetailsTemplate(product) {
   document.querySelector("h3").textContent = product.NameWithoutBrand;
 
   const productImage = document.getElementById("productImage");
+  const thumbnailsContainer = document.getElementById("imageThumbnails");
+
   productImage.src = product.Images.PrimaryLarge;
   productImage.alt = product.NameWithoutBrand;
+
+  thumbnailsContainer.innerHTML = "";
+
+  const primaryThumb = document.createElement("img");
+  primaryThumb.src = product.Images.PrimarySmall;
+  primaryThumb.alt = "Primary Image";
+
+  primaryThumb.addEventListener("click", () => {
+    productImage.src = product.Images.PrimaryLarge;
+  });
+
+  thumbnailsContainer.appendChild(primaryThumb);
+
+  if (product.Images.ExtraImages && product.Images.ExtraImages.length > 0) {
+    product.Images.ExtraImages.forEach((img) => {
+      const thumb = document.createElement("img");
+
+      thumb.src = img.Src;
+      thumb.alt = img.Title;
+
+      thumb.addEventListener("click", () => {
+        productImage.src = img.Src;
+      });
+
+      thumbnailsContainer.appendChild(thumb);
+    });
+  }
 
   const priceElement = document.getElementById("productPrice");
   const percent = getDiscountPercent(product);
