@@ -1,4 +1,4 @@
-import { loadHeaderFooter } from "./utils.mjs";
+import { loadHeaderFooter , alertMessage} from "./utils.mjs";
 import ExternalServices from "./ExternalServices.mjs";
 import CheckoutProcess from "./CheckoutProcess.mjs";
 
@@ -12,10 +12,24 @@ document
   .querySelector(".checkout-form")
   .addEventListener("submit", async (event) => {
     event.preventDefault();
+
+    const form = event.target;
+
+    const valid = form.checkValidity();
+    form.reportValidity();
+
+    if (!valid) return;
+
     try {
-      await checkout.checkout(event.target);
-      alert("Order placed successfully! Thank you for your purchase.");
+      await checkout.checkout(form);
     } catch (err) {
-      alert("There was a problem placing your order. Please try again.");
+
+      let message = "Checkout failed.";
+
+      if (err.message && typeof err.message === "object") {
+        message = Object.values(err.message).join(", ");
+      }
+
+      alertMessage(message);
     }
   });

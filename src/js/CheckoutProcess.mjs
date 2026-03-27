@@ -1,4 +1,4 @@
-import { getLocalStorage, qs, formDataToJSON } from "./utils.mjs";
+import { getLocalStorage, qs, formDataToJSON, alertMessage } from "./utils.mjs";
 
 function packageItems(items) {
   return items.map((item) => ({
@@ -60,18 +60,28 @@ export default class CheckoutProcess {
   }
 
   async checkout(form) {
-    const order = formDataToJSON(form);
+    try {
+      const order = formDataToJSON(form);
 
-    order.orderDate = new Date().toISOString();
-    order.expiration = `${order.expMonth}/${order.expYear}`;
-    delete order.expMonth;
-    delete order.expYear;
-    order.orderTotal = this.orderTotal.toFixed(2);
-    order.tax = this.tax.toFixed(2);
-    order.shipping = this.shipping;
-    order.items = packageItems(this.cart);
+      order.orderDate = new Date().toISOString();
+      order.expiration = `${order.expMonth}/${order.expYear}`;
+      delete order.expMonth;
+      delete order.expYear;
 
-    const response = await this.externalServices.checkout(order);
-    return response;
+      order.orderTotal = this.orderTotal.toFixed(2);
+      order.tax = this.tax.toFixed(2);
+      order.shipping = this.shipping;
+      order.items = packageItems(this.cart);
+
+      const response = await this.externalServices.checkout(order);
+
+      localStorage.removeItem("so-cart");
+      window.location.href = "/checkout/success.html";
+
+      return response;
+    } catch (err) {
+      console.error(err);
+      alertMessage("Checkout failed. Please check your details.");
+    }
   }
 }
