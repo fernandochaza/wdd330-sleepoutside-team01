@@ -1,4 +1,7 @@
 import { getLocalStorage, qs, formDataToJSON } from "./utils.mjs";
+import ExternaalServices from "./ExternalServices.mjs";
+
+const externalServices = new ExternaalServices();
 
 function packageItems(items) {
   return items.map((item) => ({
@@ -10,8 +13,8 @@ function packageItems(items) {
 }
 
 export default class CheckoutProcess {
-  constructor(externalServices) {
-    this.externalServices = externalServices;
+  constructor(key) {
+    this.key = key;
     this.subtotal = 0;
     this.tax = 0;
     this.shipping = 0;
@@ -20,24 +23,15 @@ export default class CheckoutProcess {
   }
 
   init() {
-    this.cart = getLocalStorage("so-cart") || [];
-    this.calculateSubtotal();
+    this.cart = getLocalStorage(this.key) || [];
     this.calculateAndDisplaySubtotal();
-
-    // Calculate totals only after the user fills in the zip code
-    qs("#zip").addEventListener("blur", () => {
-      this.calculateAndDisplayTotals();
-    });
   }
 
-  calculateSubtotal() {
+  calculateAndDisplaySubtotal() {
     this.subtotal = this.cart.reduce(
       (acc, item) => acc + item.FinalPrice * item.quantity,
       0,
     );
-  }
-
-  calculateAndDisplaySubtotal() {
     qs("#summary-subtotal").textContent = `$${this.subtotal.toFixed(2)}`;
   }
 
@@ -71,7 +65,14 @@ export default class CheckoutProcess {
     order.shipping = this.shipping;
     order.items = packageItems(this.cart);
 
-    const response = await this.externalServices.checkout(order);
-    return response;
+    try {
+      const response = await externalServices.checkout(order);
+      return response;
+    } 
+    catch (err) {
+      console.error("Checkout failed:", err);
+      throw err; 
+    }
+    
   }
 }

@@ -1,11 +1,9 @@
-import { loadHeaderFooter } from "./utils.mjs";
-import ExternalServices from "./ExternalServices.mjs";
+import { loadHeaderFooter, qs } from "./utils.mjs";
 import CheckoutProcess from "./CheckoutProcess.mjs";
 
 loadHeaderFooter();
 
-const externalServices = new ExternalServices();
-const checkout = new CheckoutProcess(externalServices);
+const checkout = new CheckoutProcess("so-cart");
 checkout.init();
 
 document
@@ -14,8 +12,15 @@ document
     event.preventDefault();
     try {
       await checkout.checkout(event.target);
-      alert("Order placed successfully! Thank you for your purchase.");
+      // Navigate to success page and clear cart
+      window.location.href = "success.html";
+      localStorage.removeItem("so-cart");
     } catch (err) {
       alert("There was a problem placing your order. Please try again.");
     }
   });
+
+// Calculate totals only after the user fills in the zip code
+qs("#zip").addEventListener("blur", () => {
+  checkout.calculateAndDisplayTotals();
+});
