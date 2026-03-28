@@ -1,1 +1,7 @@
-
+[
+  {
+    "message": "New item $50.00",
+    "background": "blue",
+    "color": "white"
+  }
+]

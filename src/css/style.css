@@ -145,6 +145,16 @@ button {
   display: none;
 }
 
+.alert-message {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.alert-message span {
+  cursor: pointer;
+  font-weight: bold;
+  color: var(--tertiary-color);
+}
 /* End utility classes */
 
 /* Cart icon styles */
@@ -496,7 +506,6 @@ footer {
   max-height: 250px;
   object-fit: contain;
   margin: 0 auto;
-<<<<<<< Updated upstream
 }
 
 /* CUSTOMER COMMENTS  */
@@ -515,6 +524,4 @@ footer {
   padding: 0.5rem;
   margin-top: 0.5rem;
   border-radius: 5px;
-=======
->>>>>>> Stashed changes
 }

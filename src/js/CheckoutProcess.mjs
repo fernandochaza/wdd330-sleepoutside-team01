@@ -1,4 +1,4 @@
-import { getLocalStorage, qs, formDataToJSON } from "./utils.mjs";
+import { getLocalStorage, qs, formDataToJSON, removeAllAlerts, alertMessage } from "./utils.mjs";
 import ExternaalServices from "./ExternalServices.mjs";
 
 const externalServices = new ExternaalServices();
@@ -39,6 +39,7 @@ export default class CheckoutProcess {
     // Tax: 6% sales tax on the subtotal
     this.tax = this.subtotal * 0.06;
     qs("#summary-tax").textContent = `$${this.tax.toFixed(2)}`;
+    
 
     // Shipping: $10 for the first item plus $2 for each additional item
     const itemsQuantity = this.cart.reduce(
@@ -47,6 +48,7 @@ export default class CheckoutProcess {
     );
     this.shipping = itemsQuantity > 0 ? 10 + 2 * (itemsQuantity - 1) : 0;
     qs("#summary-shipping").textContent = `$${this.shipping.toFixed(2)}`;
+    
 
     // Order total
     this.orderTotal = this.subtotal + this.tax + this.shipping;
@@ -67,11 +69,20 @@ export default class CheckoutProcess {
 
     try {
       const response = await externalServices.checkout(order);
-      return response;
+      console.log(response);
+      // Navigate to success page and clear cart
+      window.location.href = "../checkout/success.html";
+      localStorage.removeItem("so-cart");
     } 
     catch (err) {
-      console.error("Checkout failed:", err);
-      throw err; 
+      removeAllAlerts();
+      
+      const errorData = await err.message; 
+
+      Object.values(errorData).forEach(msg => {
+        alertMessage(msg);
+      });
+     
     }
     
   }
