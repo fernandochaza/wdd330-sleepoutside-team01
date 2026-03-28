@@ -162,28 +162,52 @@ button {
   position: relative;
   text-align: center;
   margin-left: auto;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.cart:hover {
+  transform: scale(1.1); 
 }
 
 .cart svg {
   width: 25px;
+  transition: fill 0.2s ease, transform 0.2s ease;
 }
 
 .cart:hover svg {
   fill: gray;
+  transform: scale(1.2);
 }
 
 .cart-count {
+  display: none;
   position: absolute;
-  top: 4px;
-  left: 8px;
+  top: 0;
+  right: 0;
   background-color: var(--primary-color);
   border-radius: 50%;
   width: 20px;
   height: 20px;
-  display: none;
   align-items: center;
   justify-content: center;
   font-size: var(--small-font);
+  color: #fff;
+  transform: scale(1); 
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+.cart-count.show {
+  animation: bounce 0.4s ease forwards;
+}
+
+
+@keyframes bounce {
+  0%   { transform: scale(0); }
+  50%  { transform: scale(1.4); }
+  70%  { transform: scale(1.2); }
+  100% { transform: scale(1.2); }
 }
 
 /* End cart icon styles */

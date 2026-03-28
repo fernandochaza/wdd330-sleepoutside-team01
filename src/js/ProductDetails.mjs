@@ -36,6 +36,8 @@ export default class ProductDetails {
     alertMessage(`${this.product.NameWithoutBrand} added to cart!`);
   }
 
+  
+
   renderProductDetails() {
     productDetailsTemplate(this.product);
   }
