@@ -1,4 +1,9 @@
-import { getLocalStorage, setLocalStorage, updateCartCount } from "./utils.mjs";
+import {
+  getLocalStorage,
+  setLocalStorage,
+  updateCartCount,
+  getDiscountPercent,
+} from "./utils.mjs";
 
 export default class ProductDetails {
   constructor(productId, dataSource) {
@@ -18,10 +23,15 @@ export default class ProductDetails {
 
   addToCart() {
     const cart = getLocalStorage("so-cart") || [];
-    cart.push(this.product);
+    const existingItem = cart.find(item => item.Id === this.product.Id);
+    if (existingItem) {
+      existingItem.quantity = (existingItem.quantity || 1) + 1;
+    } else {
+      this.product.quantity = 1;
+      cart.push(this.product);
+    }
     setLocalStorage("so-cart", cart);
     updateCartCount();
-
   }
 
   renderProductDetails() {
@@ -34,10 +44,23 @@ function productDetailsTemplate(product) {
   document.querySelector("h3").textContent = product.NameWithoutBrand;
 
   const productImage = document.getElementById("productImage");
-  productImage.src = product.Image;
+  productImage.src = product.Images.PrimaryLarge;
   productImage.alt = product.NameWithoutBrand;
 
-  document.getElementById("productPrice").textContent = product.FinalPrice;
+  const priceElement = document.getElementById("productPrice");
+  const percent = getDiscountPercent(product);
+  let priceHtml = `
+    <div class="price-container">
+    <span class="final-price">$${product.FinalPrice}</span>
+  `;
+  if (percent) {
+    priceHtml += `
+    <span class="original-price">$${product.SuggestedRetailPrice}</span>
+    <span class="discount-badge">${percent}% OFF</span>
+  `;
+  }
+  priceElement.innerHTML = priceHtml;
+
   document.getElementById("productColor").textContent =
     product.Colors[0].ColorName;
   document.getElementById("productDesc").innerHTML =

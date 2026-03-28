@@ -1,35 +1,24 @@
 <!doctype html>
-
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>Sleep Outside | Cart</title>
-
+    <title>Sleep Outside | Home</title>
     <link rel="stylesheet" href="/css/style.css" />
-
-    <script src="../js/cart.js" type="module"></script>
   </head>
 
   <body>
     <header class="divider" id="header"></header>
-
+    <div id="alert-container"></div>
     <main class="divider">
       <section class="products">
-        <h2>My Cart</h2>
-
+        <h2 id="title"></h2>
         <ul class="product-list">
+          <!-- Product items will be dynamically inserted here by JavaScript -->
         </ul>
-
-        <div class="cart-footer hide"><p class="cart-total"></p></div>
-        <div>
-          <a id="checkout-button" href="../checkout/index.html">Checkout</a>
-        </div>
       </section>
     </main>
-
     <footer id="footer"></footer>
+    <script type="module" src="/js/product-listing.js"></script>
   </body>
 </html>
