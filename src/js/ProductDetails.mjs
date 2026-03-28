@@ -20,20 +20,22 @@ export default class ProductDetails {
       .getElementById("addToCart")
       .addEventListener("click", this.addToCart.bind(this));
   }
-
+ 
   addToCart() {
-    const cart = getLocalStorage("so-cart") || [];
-    const existingItem = cart.find(item => item.Id === this.product.Id);
-    if (existingItem) {
-      existingItem.quantity = (existingItem.quantity || 1) + 1;
-    } else {
-      this.product.quantity = 1;
-      cart.push(this.product);
-    }
-    setLocalStorage("so-cart", cart);
-    updateCartCount();
+  const cart = getLocalStorage("so-cart") || [];
+
+  const existingItem = cart.find(item => item.Id === this.product.Id);
+
+  if (existingItem) {
+    existingItem.quantity = (existingItem.quantity || 1) + 1;
+  } else {
+    const productCopy = { ...this.product, quantity: 1 };
+    cart.push(productCopy);
   }
 
+  setLocalStorage("so-cart", cart);
+  updateCartCount();
+}
   renderProductDetails() {
     productDetailsTemplate(this.product);
   }
