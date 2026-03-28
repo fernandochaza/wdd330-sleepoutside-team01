@@ -40,16 +40,18 @@ function productCardTemplate(product) {
         <h2 class="card__name">${NameWithoutBrand}</h2>
         ${priceHtml}
       </a>
+      <button class="quick-view-btn" data-product-id="${Id}">Quick View</button>
     </li>
   `;
 }
 
 export default class ProductList {
-  constructor(category, datasource, listElement) {
+  constructor(category, datasource, listElement, quickViewModal = null) {
     this.category = category;
     this.datasource = datasource;
     this.listElement = listElement;
     this.products = [];
+    this.quickViewModal = quickViewModal;
   }
 
   async init() {
@@ -66,6 +68,20 @@ export default class ProductList {
       "afterbegin",
       true,
     );
+    this.setupQuickViewButtons();
+  }
+
+  setupQuickViewButtons() {
+    if (!this.quickViewModal) return;
+
+    const buttons = this.listElement.querySelectorAll(".quick-view-btn");
+    buttons.forEach((button) => {
+      button.addEventListener("click", (e) => {
+        e.preventDefault();
+        const productId = button.dataset.productId;
+        this.quickViewModal.openModal(productId);
+      });
+    });
   }
 
   sortProducts(type) {
