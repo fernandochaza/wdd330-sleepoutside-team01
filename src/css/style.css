@@ -145,6 +145,16 @@ button {
   display: none;
 }
 
+.alert-message {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.alert-message span {
+  cursor: pointer;
+  font-weight: bold;
+  color: var(--tertiary-color);
+}
 /* End utility classes */
 
 /* Cart icon styles */
