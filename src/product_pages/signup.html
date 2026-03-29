@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="..\css\style.css" />
+  </head>
+
+  <body>
+    <div id="header"></div>
+
+    <main>
+      <h2>Create Account</h2>
+
+      <form id="signup-form">
+        <input type="text" id="name" placeholder="Full Name" required />
+        <input type="text" id="address" placeholder="Address" required />
+        <input type="email" id="email" placeholder="Email" required />
+
+        <!-- Optional Avatar -->
+        <input type="file" id="avatar" accept="image/*" />
+
+        <button type="submit">Sign Up</button>
+      </form>
+    </main>
+
+    <footer>&copy;NOT a real business</footer>
+
+    <script type="module" src="/js/signup.js"></script>
+  </body>
+</html>

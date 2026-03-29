@@ -138,15 +138,14 @@ export function updateCartCount() {
   const badge = qs(".cart-count");
   if (!badge) return;
 
-  if (cart.length > 0 && totalItems > 0) { 
+  if (cart.length > 0 && totalItems > 0) {
     badge.textContent = totalItems;
     badge.style.display = "flex";
 
-    
     badge.classList.add("show");
     setTimeout(() => badge.classList.remove("show"), 400);
   } else {
-    badge.style.display = "none"; 
+    badge.style.display = "none";
   }
 }
 
@@ -209,3 +208,43 @@ export function removeAllAlerts() {
   const alerts = document.querySelectorAll(".alert");
   alerts.forEach((alert) => document.querySelector("main").removeChild(alert));
 }
+
+// CUSTOMER SIGNUP PROCESS
+// ---------------------------
+// API Helper
+// ---------------------------
+export async function postData(url, data) {
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    return await response.json();
+  } catch (err) {
+    console.error("Error posting data:", err);
+  }
+}
+
+// ---------------------------
+// User Utilities
+// ---------------------------
+export function showUser() {
+  const user = getLocalStorage("current-user");
+  if (!user) return;
+
+  const nameEl = qs("#user-name");
+  const avatarEl = qs("#user-avatar");
+
+  if (nameEl) nameEl.textContent = user.name;
+  if (avatarEl && user.avatar) avatarEl.src = user.avatar;
+}
+
+renderWithTemplate(headerHtml, header, null, updateCartCount);
+renderWithTemplate(footerHtml, footer, null, updateCartCount);
+
+setupSearch();
+showUser(); // ✅ ADD THIS
