@@ -102,6 +102,31 @@ export async function loadHeaderFooter() {
 }
 
 // ---------------------------
+// Breadcrumb
+// ---------------------------
+
+export function renderBreadcrumb(html) {
+  const el = qs("#breadcrumb");
+  if (el) el.innerHTML = html;
+}
+
+function capitalize(str) {
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export function buildListingBreadcrumb(category, count) {
+  const name = capitalize(category);
+  return `${name} &rarr; <span class="breadcrumb__count">(${count} items)</span>`;
+}
+
+export function buildProductBreadcrumb(category) {
+  const name = capitalize(category);
+  const link = `/product_listing/index.html?category=${encodeURIComponent(category)}`;
+  return `<a href="${link}">${name}</a>`;
+}
+
+// ---------------------------
 // Search Setup
 // ---------------------------
 
