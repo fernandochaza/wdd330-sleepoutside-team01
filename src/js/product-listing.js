@@ -1,7 +1,7 @@
 import ExternalServices from "./ExternalServices.mjs";
 import ProductList from "./ProductList.mjs";
 import QuickViewModal from "./QuickViewModal.mjs";
-import { loadHeaderFooter, getParam, qs } from "./utils.mjs";
+import { loadHeaderFooter, getParam, qs, renderBreadcrumb, buildListingBreadcrumb } from "./utils.mjs";
 
 loadHeaderFooter();
 
@@ -44,6 +44,7 @@ if (search) {
     quickViewModal,
   );
   productList.init().then(() => {
+    renderBreadcrumb(buildListingBreadcrumb(category, productList.products.length));
     const sortSelect = qs("#sort");
 
     sortSelect.addEventListener("change", (e) => {

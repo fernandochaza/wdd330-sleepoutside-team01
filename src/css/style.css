@@ -866,3 +866,30 @@ footer {
     width: 95%;
   }
 }
+
+/* ---------------------------
+   Breadcrumb
+   --------------------------- */
+
+.breadcrumb {
+  padding: 0.5rem 1rem;
+  font-size: var(--small-font);
+  color: var(--tertiary-color);
+}
+
+.breadcrumb:empty {
+  display: none;
+}
+
+.breadcrumb a {
+  color: var(--tertiary-color);
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb__count {
+  color: var(--dark-grey);
+}
