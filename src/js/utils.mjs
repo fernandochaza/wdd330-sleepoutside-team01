@@ -2,32 +2,30 @@
 // DOM Utilities
 // ---------------------------
 
-// wrapper for querySelector...returns matching element
 export function qs(selector, parent = document) {
   return parent.querySelector(selector);
 }
-// or a more concise version if you are into that sort of thing:
-// export const qs = (selector, parent = document) => parent.querySelector(selector);
 
-// set a listener for both touchend and click
 export function setClick(selector, callback) {
-  qs(selector).addEventListener("touchend", (event) => {
+  const element = qs(selector);
+  if (!element) return; //
+
+  element.addEventListener("touchend", (event) => {
     event.preventDefault();
     callback();
   });
-  qs(selector).addEventListener("click", callback);
+
+  element.addEventListener("click", callback);
 }
 
 // ---------------------------
 // Local Storage Utilities
 // ---------------------------
 
-// retrieve data from localstorage
 export function getLocalStorage(key) {
   return JSON.parse(localStorage.getItem(key));
 }
 
-// save data to local storage
 export function setLocalStorage(key, data) {
   localStorage.setItem(key, JSON.stringify(data));
 }
@@ -46,23 +44,134 @@ export function getParam(param) {
 // Rendering Utilities
 // ---------------------------
 
-export function renderListWithTemplate(template, parentElement, list, position = "afterbegin", clear = false) {
+export function renderListWithTemplate(
+  template,
+  parentElement,
+  list,
+  position = "afterbegin",
+  clear = false,
+) {
+  if (!parentElement) return; //
+
   const htmlStrings = list.map(template);
+
   if (clear) {
     parentElement.innerHTML = "";
   }
+
   parentElement.insertAdjacentHTML(position, htmlStrings.join(""));
 }
 
+export function renderWithTemplate(template, parentElement, data, callback) {
+  if (!parentElement) return; //
+
+  parentElement.innerHTML = template;
+  if (callback) callback(data);
+}
+
+// ---------------------------
+// Template Loading
+// ---------------------------
+
+export async function loadTemplate(path) {
+  const response = await fetch(path);
+  return await response.text();
+}
+
+// FIXED VERSION
+export async function loadHeaderFooter() {
+  const header = qs("#header");
+  const footer = qs("#footer");
+
+  try {
+    // load header only if it exists
+    if (header) {
+      const headerHtml = await loadTemplate("/partials/header.html");
+      renderWithTemplate(headerHtml, header, null, updateCartCount);
+      setupSearch(); // only run if header exists
+    }
+
+    // load footer only if it exists
+    if (footer) {
+      const footerHtml = await loadTemplate("/partials/footer.html");
+      renderWithTemplate(footerHtml, footer, null, updateCartCount);
+    }
+  } catch (err) {
+    console.error("Error loading header/footer:", err);
+  }
+}
+
+// ---------------------------
+// Breadcrumb
+// ---------------------------
+
+export function renderBreadcrumb(html) {
+  const el = qs("#breadcrumb");
+  if (el) el.innerHTML = html;
+}
+
+function capitalize(str) {
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export function buildListingBreadcrumb(category, count) {
+  const name = capitalize(category);
+  return `${name} &rarr; <span class="breadcrumb__count">(${count} items)</span>`;
+}
+
+export function buildProductBreadcrumb(category) {
+  const name = capitalize(category);
+  const link = `/product_listing/index.html?category=${encodeURIComponent(category)}`;
+  return `<a href="${link}">${name}</a>`;
+}
+
+// ---------------------------
+// Search Setup
+// ---------------------------
+
+function setupSearch() {
+  const input = qs("#nav-search-input");
+  const icon = qs(".search-icon");
+
+  if (!input || !icon) return;
+
+  function doSearch() {
+    const keyword = input.value.trim();
+    if (keyword) {
+      window.location.href = `/product_listing/index.html?search=${encodeURIComponent(keyword)}`;
+    }
+  }
+
+  input.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      doSearch();
+    }
+  });
+
+  icon.addEventListener("click", doSearch);
+}
+
+// ---------------------------
+// Cart Count
+// ---------------------------
+
 export function updateCartCount() {
   const cart = getLocalStorage("so-cart") || [];
-  const count = cart.length;
+  const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
 
-  if (count > 0) {
-    qs(".cart-count").textContent = count;
-    qs(".cart-count").style.display = "flex";
+  const badge = qs(".cart-count");
+  if (!badge) return;
+
+  if (cart.length > 0 && totalItems > 0) { 
+    badge.textContent = totalItems;
+    badge.style.display = "flex";
+
+    
+    badge.classList.add("show");
+    setTimeout(() => badge.classList.remove("show"), 400);
   } else {
-    qs(".cart-count").style.display = "none";
+    badge.style.display = "none"; 
   }
 }
 
@@ -77,8 +186,7 @@ export function isDiscounted(product) {
 export function getDiscountAmount(product) {
   if (!isDiscounted(product)) return 0;
 
-  const amount =
-    product.SuggestedRetailPrice - product.FinalPrice;
+  const amount = product.SuggestedRetailPrice - product.FinalPrice;
 
   return Number(amount.toFixed(2));
 }
@@ -87,8 +195,42 @@ export function getDiscountPercent(product) {
   const amount = getDiscountAmount(product);
   if (!amount) return 0;
 
-  const percent =
-    (amount / product.SuggestedRetailPrice) * 100;
+  const percent = (amount / product.SuggestedRetailPrice) * 100;
 
   return Math.round(percent);
+}
+
+// ---------------------------
+// Form Utilities
+// ---------------------------
+
+// takes a form element and returns an object where the key is the "name" of the form input and the value is the "value" of the form input
+export function formDataToJSON(formElement) {
+  const formData = new FormData(formElement);
+  const convertedJSON = {};
+  formData.forEach((value, key) => {
+    convertedJSON[key] = value;
+  });
+  return convertedJSON;
+}
+
+export function alertMessage(message, scroll = true, duration = 3000) {
+  const alert = document.createElement("div");
+  alert.classList.add("alert");
+  alert.innerHTML = `<p class="alert-message">${message}<span>X</span></p>`;
+
+  alert.addEventListener("click", function (e) {
+    if (e.target.tagName == "SPAN") {
+      main.removeChild(this);
+    }
+  });
+  const main = document.querySelector("main");
+  main.prepend(alert);
+
+  if (scroll) window.scrollTo(0, 0);
+}
+
+export function removeAllAlerts() {
+  const alerts = document.querySelectorAll(".alert");
+  alerts.forEach((alert) => document.querySelector("main").removeChild(alert));
 }

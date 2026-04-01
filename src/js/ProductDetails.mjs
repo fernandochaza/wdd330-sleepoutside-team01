@@ -1,4 +1,10 @@
-import { getLocalStorage, setLocalStorage, updateCartCount } from "./utils.mjs";
+import {
+  getLocalStorage,
+  setLocalStorage,
+  updateCartCount,
+  getDiscountPercent,
+  alertMessage,
+} from "./utils.mjs";
 
 export default class ProductDetails {
   constructor(productId, dataSource) {
@@ -18,11 +24,19 @@ export default class ProductDetails {
 
   addToCart() {
     const cart = getLocalStorage("so-cart") || [];
-    cart.push(this.product);
+    const existingItem = cart.find(item => item.Id === this.product.Id);
+    if (existingItem) {
+      existingItem.quantity = (existingItem.quantity || 1) + 1;
+    } else {
+      this.product.quantity = 1;
+      cart.push(this.product);
+    }
     setLocalStorage("so-cart", cart);
     updateCartCount();
-
+    alertMessage(`${this.product.NameWithoutBrand} added to cart!`);
   }
+
+  
 
   renderProductDetails() {
     productDetailsTemplate(this.product);
@@ -34,10 +48,52 @@ function productDetailsTemplate(product) {
   document.querySelector("h3").textContent = product.NameWithoutBrand;
 
   const productImage = document.getElementById("productImage");
-  productImage.src = product.Image;
+  const thumbnailsContainer = document.getElementById("imageThumbnails");
+
+  productImage.src = product.Images.PrimaryLarge;
   productImage.alt = product.NameWithoutBrand;
 
-  document.getElementById("productPrice").textContent = product.FinalPrice;
+  thumbnailsContainer.innerHTML = "";
+
+  const primaryThumb = document.createElement("img");
+  primaryThumb.src = product.Images.PrimarySmall;
+  primaryThumb.alt = "Primary Image";
+
+  primaryThumb.addEventListener("click", () => {
+    productImage.src = product.Images.PrimaryLarge;
+  });
+
+  thumbnailsContainer.appendChild(primaryThumb);
+
+  if (product.Images.ExtraImages && product.Images.ExtraImages.length > 0) {
+    product.Images.ExtraImages.forEach((img) => {
+      const thumb = document.createElement("img");
+
+      thumb.src = img.Src;
+      thumb.alt = img.Title;
+
+      thumb.addEventListener("click", () => {
+        productImage.src = img.Src;
+      });
+
+      thumbnailsContainer.appendChild(thumb);
+    });
+  }
+
+  const priceElement = document.getElementById("productPrice");
+  const percent = getDiscountPercent(product);
+  let priceHtml = `
+    <div class="price-container">
+    <span class="final-price">$${product.FinalPrice}</span>
+  `;
+  if (percent) {
+    priceHtml += `
+    <span class="original-price">$${product.SuggestedRetailPrice}</span>
+    <span class="discount-badge">${percent}% OFF</span>
+  `;
+  }
+  priceElement.innerHTML = priceHtml;
+
   document.getElementById("productColor").textContent =
     product.Colors[0].ColorName;
   document.getElementById("productDesc").innerHTML =
