@@ -214,6 +214,32 @@ export function formDataToJSON(formElement) {
   return convertedJSON;
 }
 
+// ---------------------------
+// Alert Utility
+//----------------------------
+
+export function alertMessage(message, scroll = true) {
+  const alert = document.createElement('div');
+  alert.classList.add('alert');
+
+  alert.innerHTML = `
+    <div class="alert-content">
+      <strong>⚠️ Error</strong>
+      <p>${message}</p>
+    </div>
+    <button class="close-btn">✖</button>
+  `;
+
+  alert.addEventListener('click', function(e) {
+    if (e.target.classList.contains('close-btn')) {
+      alert.remove();
+    }
+  });
+
+  const main = document.querySelector('main');
+  main.prepend(alert);
+
+  if (scroll) window.scrollTo({ top: 0, behavior: 'smooth' });
 export function alertMessage(message, scroll = true, duration = 3000) {
   const alert = document.createElement("div");
   alert.classList.add("alert");
