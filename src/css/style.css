@@ -305,3 +305,11 @@ footer {
   font-size: var(--small-font);
   padding: 1em;
 }
+
+#checkout-message.success {
+  color: green;
+}
+
+#checkout-message.error {
+  color: red;
+}
