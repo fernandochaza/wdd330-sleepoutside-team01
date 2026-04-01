@@ -3,6 +3,7 @@ import {
   setLocalStorage,
   updateCartCount,
   getDiscountPercent,
+  alertMessage,
 } from "./utils.mjs";
 
 export default class ProductDetails {
@@ -32,7 +33,10 @@ export default class ProductDetails {
     }
     setLocalStorage("so-cart", cart);
     updateCartCount();
+    alertMessage(`${this.product.NameWithoutBrand} added to cart!`);
   }
+
+  
 
   renderProductDetails() {
     productDetailsTemplate(this.product);

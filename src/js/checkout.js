@@ -1,5 +1,4 @@
-import { loadHeaderFooter } from "./utils.mjs";
-import ExternalServices from "./ExternalServices.mjs";
+import { loadHeaderFooter, qs } from "./utils.mjs";
 import CheckoutProcess from "./CheckoutProcess.mjs";
 
 loadHeaderFooter();
@@ -7,6 +6,7 @@ loadHeaderFooter();
 const externalServices = new ExternalServices();
 const checkout = new CheckoutProcess(externalServices);
 
+const checkout = new CheckoutProcess("so-cart");
 checkout.init();
 
 document
@@ -25,3 +25,10 @@ document
    
     checkout.checkout(form);
   });
+    checkout.checkout(event.target);
+  });
+
+// Calculate totals only after the user fills in the zip code
+qs("#zip").addEventListener("blur", () => {
+  checkout.calculateAndDisplayTotals();
+});

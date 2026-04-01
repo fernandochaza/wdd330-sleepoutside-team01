@@ -102,6 +102,31 @@ export async function loadHeaderFooter() {
 }
 
 // ---------------------------
+// Breadcrumb
+// ---------------------------
+
+export function renderBreadcrumb(html) {
+  const el = qs("#breadcrumb");
+  if (el) el.innerHTML = html;
+}
+
+function capitalize(str) {
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export function buildListingBreadcrumb(category, count) {
+  const name = capitalize(category);
+  return `${name} &rarr; <span class="breadcrumb__count">(${count} items)</span>`;
+}
+
+export function buildProductBreadcrumb(category) {
+  const name = capitalize(category);
+  const link = `/product_listing/index.html?category=${encodeURIComponent(category)}`;
+  return `<a href="${link}">${name}</a>`;
+}
+
+// ---------------------------
 // Search Setup
 // ---------------------------
 
@@ -133,16 +158,20 @@ function setupSearch() {
 
 export function updateCartCount() {
   const cart = getLocalStorage("so-cart") || [];
-  const count = cart.length;
+  const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
 
   const badge = qs(".cart-count");
   if (!badge) return;
 
-  if (count > 0) {
-    badge.textContent = count;
+  if (cart.length > 0 && totalItems > 0) { 
+    badge.textContent = totalItems;
     badge.style.display = "flex";
+
+    
+    badge.classList.add("show");
+    setTimeout(() => badge.classList.remove("show"), 400);
   } else {
-    badge.style.display = "none";
+    badge.style.display = "none"; 
   }
 }
 
@@ -211,4 +240,23 @@ export function alertMessage(message, scroll = true) {
   main.prepend(alert);
 
   if (scroll) window.scrollTo({ top: 0, behavior: 'smooth' });
+export function alertMessage(message, scroll = true, duration = 3000) {
+  const alert = document.createElement("div");
+  alert.classList.add("alert");
+  alert.innerHTML = `<p class="alert-message">${message}<span>X</span></p>`;
+
+  alert.addEventListener("click", function (e) {
+    if (e.target.tagName == "SPAN") {
+      main.removeChild(this);
+    }
+  });
+  const main = document.querySelector("main");
+  main.prepend(alert);
+
+  if (scroll) window.scrollTo(0, 0);
+}
+
+export function removeAllAlerts() {
+  const alerts = document.querySelectorAll(".alert");
+  alerts.forEach((alert) => document.querySelector("main").removeChild(alert));
 }

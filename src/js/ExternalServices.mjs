@@ -9,6 +9,12 @@ async function convertToJson(res) {
       name: 'servicesError',
       message: jsonResponse
     };
+function convertToJson(res) {
+  const jsonResponse = res.json();
+  if (res.ok) {
+    return jsonResponse;
+  } else {
+    throw { name: 'servicesError', message: jsonResponse };
   }
 }
 
