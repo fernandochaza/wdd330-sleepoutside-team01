@@ -19,6 +19,9 @@
       <section class="products">
         <h2>Review & Place your Order</h2>
       </section>
+
+      <p id="checkout-message"></p>
+      
       <form class="checkout-form">
         <fieldset>
           <legend>Customer Name</legend>
@@ -50,27 +53,11 @@
           <div class="expiration-row">
             <div>
               <label for="expMonth">Exp. Month</label>
-              <input
-                id="expMonth"
-                type="number"
-                name="expMonth"
-                min="1"
-                max="12"
-                placeholder="MM"
-                required
-              />
+              <input id="expMonth" type="number" name="expMonth" min="1" max="12" placeholder="MM" required />
             </div>
             <div>
               <label for="expYear">Exp. Year</label>
-              <input
-                id="expYear"
-                type="number"
-                name="expYear"
-                min="24"
-                max="99"
-                placeholder="YY"
-                required
-              />
+              <input id="expYear" type="number" name="expYear" min="24" max="99" placeholder="YY" required />
             </div>
           </div>
 
