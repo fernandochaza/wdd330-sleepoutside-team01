@@ -102,6 +102,31 @@ export async function loadHeaderFooter() {
 }
 
 // ---------------------------
+// Breadcrumb
+// ---------------------------
+
+export function renderBreadcrumb(html) {
+  const el = qs("#breadcrumb");
+  if (el) el.innerHTML = html;
+}
+
+function capitalize(str) {
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export function buildListingBreadcrumb(category, count) {
+  const name = capitalize(category);
+  return `${name} &rarr; <span class="breadcrumb__count">(${count} items)</span>`;
+}
+
+export function buildProductBreadcrumb(category) {
+  const name = capitalize(category);
+  const link = `/product_listing/index.html?category=${encodeURIComponent(category)}`;
+  return `<a href="${link}">${name}</a>`;
+}
+
+// ---------------------------
 // Search Setup
 // ---------------------------
 
@@ -188,6 +213,32 @@ export function formDataToJSON(formElement) {
   return convertedJSON;
 }
 
+// ---------------------------
+// Alert Utility
+//----------------------------
+
+export function alertMessage(message, scroll = true) {
+  const alert = document.createElement('div');
+  alert.classList.add('alert');
+
+  alert.innerHTML = `
+    <div class="alert-content">
+      <strong>⚠️ Error</strong>
+      <p>${message}</p>
+    </div>
+    <button class="close-btn">✖</button>
+  `;
+
+  alert.addEventListener('click', function(e) {
+    if (e.target.classList.contains('close-btn')) {
+      alert.remove();
+    }
+  });
+
+  const main = document.querySelector('main');
+  main.prepend(alert);
+
+  if (scroll) window.scrollTo({ top: 0, behavior: 'smooth' });
 export function alertMessage(message, scroll = true, duration = 3000) {
   const alert = document.createElement("div");
   alert.classList.add("alert");

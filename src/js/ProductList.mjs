@@ -1,6 +1,6 @@
 import { renderListWithTemplate, getDiscountPercent } from "./utils.mjs";
 
-function productCardTemplate(product) {
+function productCardTemplate(product, category) {
   const {
     Id,
     NameWithoutBrand,
@@ -19,9 +19,10 @@ function productCardTemplate(product) {
       <p class="product-card__discount">${percent}% OFF</p>
     `;
 
+  const categoryParam = category ? `&category=${encodeURIComponent(category)}` : '';
   return `
     <li class="product-card">
-      <a href="/product_pages/index.html?product=${Id}">
+      <a href="/product_pages/index.html?product=${Id}${categoryParam}">
         <img 
         src="${Images.PrimaryMedium}"
         srcset="
@@ -61,8 +62,9 @@ export default class ProductList {
 
   renderList(products = this.products) {
     this.listElement.innerHTML = "";
+    const category = this.category;
     renderListWithTemplate(
-      productCardTemplate,
+      (product) => productCardTemplate(product, category),
       this.listElement,
       products,
       "afterbegin",

@@ -1,10 +1,20 @@
-import { getParam, loadHeaderFooter } from "./utils.mjs";
+import {
+  getParam,
+  loadHeaderFooter,
+  renderBreadcrumb,
+  buildProductBreadcrumb,
+} from "./utils.mjs";
 import ExternalServices from "./ExternalServices.mjs";
 import ProductDetails from "./ProductDetails.mjs";
 
 loadHeaderFooter();
 const productId = getParam("product");
+const category = getParam("category");
 const dataSource = new ExternalServices();
+
+if (category) {
+  renderBreadcrumb(buildProductBreadcrumb(category));
+}
 
 const product = new ProductDetails(productId, dataSource);
 product.init();

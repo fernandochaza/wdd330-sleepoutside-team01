@@ -1,3 +1,4 @@
+import { getLocalStorage, qs, formDataToJSON,alertMessage } from "./utils.mjs";
 import { getLocalStorage, qs, formDataToJSON, removeAllAlerts, alertMessage } from "./utils.mjs";
 import ExternaalServices from "./ExternalServices.mjs";
 
@@ -56,6 +57,44 @@ export default class CheckoutProcess {
   }
 
   async checkout(form) {
+    try {
+      const order = formDataToJSON(form);
+
+      order.orderDate = new Date().toISOString();
+      order.expiration = `${order.expMonth}/${order.expYear}`;
+      delete order.expMonth;
+      delete order.expYear;
+
+      order.orderTotal = this.orderTotal.toFixed(2);
+      order.tax = this.tax.toFixed(2);
+      order.shipping = this.shipping;
+      order.items = packageItems(this.cart);
+
+      const response = await this.externalServices.checkout(order);
+
+      
+      localStorage.removeItem('so-cart');
+      window.location.href = '/checkout/success.html';
+
+      return response;
+
+    } catch (err) {
+      console.error('Checkout error:', err);
+    
+      let message = '⚠️ Hubo un problema al procesar tu orden.';
+    
+      if (err.name === 'servicesError') {
+        if (typeof err.message === 'object') {
+          
+          message = Object.values(err.message).join('<br>');
+        } else {
+          message = err.message;
+        }
+      }
+    
+      alertMessage(message);
+    
+    }
     const order = formDataToJSON(form);
 
     order.orderDate = new Date().toISOString();
@@ -87,3 +126,4 @@ export default class CheckoutProcess {
     
   }
 }
+
