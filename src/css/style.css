@@ -901,28 +901,89 @@ footer {
 }
 
 /* ---------------------------
-   Breadcrumb
-   --------------------------- */
-
-.breadcrumb {
-  padding: 0.5rem 1rem;
-  font-size: var(--small-font);
-  color: var(--tertiary-color);
+   Page Layout
+--------------------------- */
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
 }
 
-.breadcrumb:empty {
-  display: none;
+/* ---------------------------
+   Form Container
+--------------------------- */
+#signup-form {
+  background: #ffffff;
+  padding: 30px;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.breadcrumb a {
-  color: var(--tertiary-color);
-  text-decoration: none;
+/* ---------------------------
+   Heading
+--------------------------- */
+main h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
 }
 
-.breadcrumb a:hover {
-  text-decoration: underline;
+/* ---------------------------
+   Inputs
+--------------------------- */
+#signup-form input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: 0.3s;
 }
 
-.breadcrumb__count {
-  color: var(--dark-grey);
+#signup-form input:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+/* ---------------------------
+   File Input
+--------------------------- */
+#signup-form input[type="file"] {
+  padding: 8px;
+  background: #f9f9f9;
+}
+
+/* ---------------------------
+   Button
+--------------------------- */
+#signup-form button {
+  width: 100%;
+  padding: 12px;
+  background: var(--secondary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#signup-form button:hover {
+  background: #636d14;
+}
+
+/* ---------------------------
+   Responsive
+--------------------------- */
+@media (max-width: 500px) {
+  #signup-form {
+    margin: 10px;
+    padding: 20px;
+  }
 }
